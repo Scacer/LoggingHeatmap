@@ -16,17 +16,12 @@ class Heatmap:
     # Constructor
     def __init__(self, filePath=None, imgPath="./map.png"):
         self.imgPath = imgPath
-        if filePath == None:
-            self.heatmapData = [[0 for i in range(10)] for i in range(10)]
-        else:
-            with open(filePath) as file:
-                self.heatmapData = file.read()
+        self.heatmapData = self.loadHeatMapData(filePath)
 
 
     # Accessor Methods
     def getHeatmapData(self):
         return self.heatmapData
-        
 
     # Service Methods
     def inputHeatmapData(self, x, y, sightings=1):
@@ -46,6 +41,11 @@ class Heatmap:
                 if columncount != 10:
                     file.write("\n")
 
+    def loadHeatMapData(self, path):
+        if path == None:
+            return None
+
+    # This method constructs and outputs the heatmap based on the data stored within self.heatMapData
     def constructHeatmap(self):
             # Create a new figure
             plt.figure()
