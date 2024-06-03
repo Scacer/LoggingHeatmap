@@ -47,27 +47,38 @@ class Heatmap:
                     file.write("\n")
 
     def constructHeatmap(self):
+            # Create a new figure
             plt.figure()
-            
+
+            # Read the map image and plot it first so that the plot size equals image size
             img = plt.imread(self.imgPath)
             plt.imshow(img, alpha=1)
 
+            # Retrieve the minimum and maximum values of the plot axes
             xmin, xmax = plt.xlim()
             ymin, ymax = plt.ylim()
 
-            Mat = np.array(self.heatmapData)
-            plt.imshow(Mat, cmap='Reds', interpolation='nearest', alpha=0.5, extent=(xmin, xmax, ymin, ymax))
+            # Create a matrix for the heatmap from the data stored within the object
+            matrix = np.array(self.heatmapData)
+
+            # Plot the matrix, scale it to plot size and set opacity to 0.5
+            plt.imshow(matrix, cmap='Reds', interpolation='nearest', alpha=0.5, extent=(xmin, xmax, ymin, ymax))
             
+            # Retrieve the values for which to create custom labels
             xticks = []
             yticks = []
             for i in range(0, 10):
                 xticks.append( ((xmax/10) * i) + (xmax/20) )
                 yticks.append( ((ymin/10) * i) + (ymin/20) )
+            
+            # Since the y axis creates labels top to bottom, we need to reverse the array
             yticks.reverse()
             
+            # Plot the custom labels at the retrieved values
             plt.xticks(xticks, self.columnsLabels)
             plt.yticks(yticks, self.rowsLabels)
 
+            # Show the plot
             plt.show()
         
 
