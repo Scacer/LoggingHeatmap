@@ -14,7 +14,7 @@ class Heatmap:
     columnsLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
     
     # Constructor
-    def __init__(self, filePath=None, imgPath="./map"):
+    def __init__(self, filePath=None, imgPath="./map.png"):
         self.imgPath = imgPath
         if filePath == None:
             self.heatmapData = [[0 for i in range(10)] for i in range(10)]
