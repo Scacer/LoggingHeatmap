@@ -1,3 +1,4 @@
+import math
 import matplotlib.image as image
 import matplotlib.pyplot as plt
 import numpy as np
@@ -45,24 +46,30 @@ class Heatmap:
                     file.write("\n")
 
     def constructHeatmap(self):
-        graphData = np.array(self.heatmapData)
+            plt.figure()
+            
+            img = plt.imread(self.imgPath)
+            plt.imshow(img, alpha=1)
 
-        fig, ax = plt.subplots()
-        im = ax.imshow(graphData)
+            xmin, xmax = plt.xlim()
+            ymin, ymax = plt.ylim()
 
-        ax.set_xticks(np.arange(len(self.rowsLabels)), labels=self.rowsLabels)
-        ax.set_yticks(np.arange(len(self.columnsLabels)), labels=self.columnsLabels)
+            Mat = np.array(self.heatmapData)
+            plt.imshow(Mat, cmap='Reds', interpolation='nearest', alpha=0.5, extent=(xmin, xmax, ymin, ymax))
+            
+            xticks = []
+            yticks = []
+            for i in range(0, 10):
+                xticks.append( ((xmax/10) * i) + (xmax/20) )
+                yticks.append( ((ymin/10) * i) + (ymin/20) )
+            yticks.reverse()
+            
+            plt.xticks(xticks, self.columnsLabels)
+            plt.yticks(yticks, self.rowsLabels)
 
-        plt.setp(ax.get_xticklabels(), rotation=45, ha="right", rotation_mode="anchor")
+            plt.show()
+        
 
-        for i in range(len(self.columnsLabels)):
-            for j in range(len(self.rowsLabels)):
-                text = ax.text(j, i, graphData[i, j], ha="center", va="center", color="w")
-
-
-        ax.set_title("Illegal Logging Activity")
-        fig.tight_layout()
-        plt.show()
         
 
     # Support Methods
