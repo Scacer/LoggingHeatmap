@@ -9,21 +9,21 @@ import numpy as np
 
 class Heatmap:
     # Attributes
-    heatmapData = []
     rowsLabels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
     columnsLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
     
-    # Constructor
-    def __init__(self, filePath=None, imgPath="./map.png"):
+# Constructor
+    def __init__(self, filePath=None, heatmapSize=10, imgPath="./map.png"):
+        self.heatmapSize = heatmapSize
         self.imgPath = imgPath
         self.heatmapData = self.loadHeatMapData(filePath)
 
 
-    # Accessor Methods
+# Accessor Methods
     def getHeatmapData(self):
         return self.heatmapData
 
-    # Service Methods
+# Service Methods
     def inputHeatmapData(self, x, y, sightings=1):
         self.heatmapData[y][x] += sightings
 
@@ -36,14 +36,26 @@ class Heatmap:
                 for row in column:
                     rowcount +=1
                     file.write(str(row))
-                    if rowcount != 10:
+                    if rowcount != self.heatmapSize:
                         file.write(",")
-                if columncount != 10:
+                if columncount != self.heatmapSize:
                     file.write("\n")
 
     def loadHeatMapData(self, path):
         if path == None:
-            return None
+            return [[0 for i in range(10)] for i in range(10)]
+        else:
+            try:
+                tempArray = []
+                with open(path, 'r') as file:
+                    while ( currentLine := file.readline() ) != '':
+                        currentRow = (currentLine.replace("\n", '')).split(",")
+                        tempArray.append(int(value) for value in currentRow)
+                self.heatmapSize = len(tempArray)
+                print(tempArray)
+                return tempArray
+            except:
+                print("File does not exist or data is not formatted correctly!")
 
     # This method constructs and outputs the heatmap based on the data stored within self.heatMapData
     def constructHeatmap(self):
@@ -67,9 +79,9 @@ class Heatmap:
             # Retrieve the values for which to create custom labels
             xticks = []
             yticks = []
-            for i in range(0, 10):
-                xticks.append( ((xmax/10) * i) + (xmax/20) )
-                yticks.append( ((ymin/10) * i) + (ymin/20) )
+            for i in range(0, self.heatmapSize):
+                xticks.append( ((xmax/self.heatmapSize) * i) + (xmax/20) )
+                yticks.append( ((ymin/self.heatmapSize) * i) + (ymin/20) )
             
             # Since the y axis creates labels top to bottom, we need to reverse the array
             yticks.reverse()
@@ -84,10 +96,10 @@ class Heatmap:
 
         
 
-    # Support Methods
+# Support Methods
     
 def main():
     print("Test Harness")
 
-if __name__ == '__heatmap__':
+if __name__ == 'heatmap':
     main()
