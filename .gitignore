@@ -1,0 +1,5 @@
+# ignore the data file
+/*.txt
+
+# ignore all files in the __pycache__ folder
+__pycache__/
