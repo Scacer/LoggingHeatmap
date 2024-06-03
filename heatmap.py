@@ -1,13 +1,15 @@
-import math
+'''
+class Heatmap:
+    The Heatmap class provides functionality for all tasks surrounding the heatmap, including input of data, reading and saving of data
+    to and from a file respectively, generation of the heatmap.
+'''
 import matplotlib.image as image
 import matplotlib.pyplot as plt
 import numpy as np
 
-import matplotlib
-import matplotlib as mpls
-
 class Heatmap:
-    imgPath = ("D:\\Code\\Python\\LoggingHeatmap\\LoggingHeatmap\\map.png")
+    # Attributes
+    imgPath = ("./map.png")
     heatmapData = []
     rowsLabels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
     columnsLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
@@ -38,7 +40,6 @@ class Heatmap:
                 columncount += 1
                 for row in column:
                     rowcount +=1
-                    print(column, row)
                     file.write(str(row))
                     if rowcount != 10:
                         file.write(",")
