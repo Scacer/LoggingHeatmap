@@ -9,17 +9,17 @@ import numpy as np
 
 class Heatmap:
     # Attributes
-    imgPath = ("./map.png")
     heatmapData = []
     rowsLabels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
     columnsLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
     
     # Constructor
-    def __init__(self, filepath=None):
-        if filepath == None:
+    def __init__(self, filePath=None, imgPath="./map"):
+        self.imgPath = imgPath
+        if filePath == None:
             self.heatmapData = [[0 for i in range(10)] for i in range(10)]
         else:
-            with open(filepath) as file:
+            with open(filePath) as file:
                 self.heatmapData = file.read()
 
 
