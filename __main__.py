@@ -15,10 +15,13 @@ def main():
     for i in range(0, 100):
         testHeatmap1.inputHeatmapData(random.randint(0, 9), random.randint(0, 9))
     testHeatmap1.saveHeatmapData()
+    testHeatmap1.constructHeatmap()
 
     
     testHeatmap2 = heatmap.Heatmap(filePath="./data.txt")
     print(testHeatmap1.getHeatmapData())
+    print(testHeatmap2.getHeatmapData())
+    testHeatmap2.constructHeatmap()
 
 
 if __name__ == '__main__':

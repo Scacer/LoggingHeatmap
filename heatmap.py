@@ -28,17 +28,12 @@ class Heatmap:
         self.heatmapData[y][x] += sightings
 
     def saveHeatmapData(self):
+        heatmapData = self.heatmapData
         with open('data.txt', 'w') as file:
-            columncount = 0
-            for column in self.heatmapData:
-                rowcount = 0
-                columncount += 1
-                for row in column:
-                    rowcount +=1
-                    file.write(str(row))
-                    if rowcount != self.heatmapSize:
-                        file.write(",")
-                if columncount != self.heatmapSize:
+            for i in range(0, len(heatmapData)):
+                currentRow = str(heatmapData[i]).replace('[', '').replace(']', '').replace(' ', '')
+                file.write(currentRow)
+                if i != len(heatmapData)-1:
                     file.write("\n")
 
     def loadHeatMapData(self, path):
@@ -50,9 +45,10 @@ class Heatmap:
                 with open(path, 'r') as file:
                     while ( currentLine := file.readline() ) != '':
                         currentRow = (currentLine.replace("\n", '')).split(",")
-                        tempArray.append(int(value) for value in currentRow)
+                        for i in range(0, len(currentRow)):
+                            currentRow[i] = int(currentRow[i])  
+                        tempArray.append(currentRow)
                 self.heatmapSize = len(tempArray)
-                print(tempArray)
                 return tempArray
             except:
                 print("File does not exist or data is not formatted correctly!")
@@ -92,14 +88,5 @@ class Heatmap:
 
             # Show the plot
             plt.show()
-        
-
-        
 
 # Support Methods
-    
-def main():
-    print("Test Harness")
-
-if __name__ == 'heatmap':
-    main()
