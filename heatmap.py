@@ -8,16 +8,20 @@ import matplotlib.pyplot as plt
 import numpy as np
 import re
 
+from datetime import date
+
 class Heatmap:
     # Attributes
     rowsLabels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
     columnsLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
     
 # Constructor
-    def __init__(self, filePath=None, heatmapSize=10, imgPath="./map.png"):
+    def __init__(self, filePath=None, heatmapSize=10, imgPath="./map.png", isGuide=False):
         self.heatmapSize = heatmapSize
         self.imgPath = imgPath
         self.heatmapData = self.loadHeatMapData(filePath)
+        if isGuide:
+            self.constructHeatmap(True)
 
 
 # Accessor Methods
@@ -25,12 +29,12 @@ class Heatmap:
         return self.heatmapData
 
 # Service Methods
-    def inputHeatmapData(self, x, y, sightings=1): #replace x, y with gridCoordinate
-        self.heatmapData[y][x] += sightings
-        #if re.fullmatch("[A-Z]{1}[0-9]+", gridCoordinate):
-        #    print(True)
-        #else:
-        #    print("Grid Co-ordinates should follow the format \"[A-Z]{1}[0-9]+\" e.g. B6, H10 !")
+    def inputHeatmapData(self, gridCoordinate, description, sightings=1): #replace x, y with gridCoordinate
+        self.__logIncident__(gridCoordinate, description)
+        if re.fullmatch("[A-Z]{1}[0-9]+", gridCoordinate):
+            print(True)
+        else:
+            print("Grid Co-ordinates should follow the format \"[A-Z]{1}[0-9]+\" e.g. B6, H10 !")
 
     def saveHeatmapData(self):
         heatmapData = self.heatmapData
@@ -39,7 +43,7 @@ class Heatmap:
                 currentRow = str(heatmapData[i]).replace('[', '').replace(']', '').replace(' ', '')
                 file.write(currentRow)
                 if i != len(heatmapData)-1:
-                    file.write("\n")
+                    file.write("\n") 
 
     def loadHeatMapData(self, path):
         if path == None:
@@ -59,9 +63,11 @@ class Heatmap:
                 print("File does not exist or data is not formatted correctly!")
 
     # This method constructs and outputs the heatmap based on the data stored within self.heatMapData
-    def constructHeatmap(self):
+    def constructHeatmap(self, isGuide=False):
+            figName = "heatmap.jpg"
+
             # Create a new figure
-            plt.figure()
+            fig, ax = plt.subplots()
 
             # Read the map image and plot it first so that the plot size equals image size
             img = plt.imread(self.imgPath)
@@ -88,9 +94,35 @@ class Heatmap:
             yticks.reverse()
             
             # Plot the custom labels at the retrieved values
-            plt.xticks(xticks, self.columnsLabels)
-            plt.yticks(yticks, self.rowsLabels)
+            ax.set_xticks(xticks)
+            ax.set_xticklabels(self.columnsLabels)
+            ax.set_yticks(yticks)
+            ax.set_yticklabels(self.rowsLabels)
 
-            # Show the plot
-            plt.show()
+            if isGuide:
+                # This block only executes if we are generating a guide grid
+                
+                figName = "guideGrid.jpg"
+                # Minor ticks are generated between the values
+                xminorticks = []
+                yminorticks = []
+                for tick in xticks:
+                    xminorticks.append(tick + xmax/20)
+                for tick in yticks:
+                    yminorticks.append(tick + ymin/20)
+
+                # These minor ticks are then set on the axes
+                ax.set_xticks(xminorticks, minor=True)
+                ax.set_yticks(yminorticks, minor=True)  
+
+                # The axes are then given gridlines on the minor ticks and the plot is saved as an image
+                ax.grid(which="minor")
+            
+            # Save the figure
+            fig.savefig(figName)
+
+# Support Methods
+    def __logIncident__(self, gridCoordinate, description):
+        with open("log.txt", 'a') as file:
+            file.write(gridCoordinate + ", " + str(date.today()) + ", " + description + "\n")
 

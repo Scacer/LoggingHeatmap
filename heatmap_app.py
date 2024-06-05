@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, filedialog
+from PIL import Image, Imagetk
 import heatmap
 
 class HeatmapApp(tk.Tk):
@@ -94,6 +95,13 @@ class HeatmapApp(tk.Tk):
 
     def on_leave(self, event):
         event.widget.config(bg="#8B4513")
+    
+    def placeGuide(self): 
+        # Generates the guide image
+        guideMap = heatmap.Heatmap(isGuide=True)
+
+        # The guide image then needs to be placed in the window :)
+        # The image is saved as guideGrid
 
 def main():
     app = HeatmapApp()

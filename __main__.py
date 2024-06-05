@@ -7,13 +7,12 @@
                     data to represent locations around the village and utilises this data to generate a heatmap which can serve
                     as an indication of where illegal logging is happening the most.
 '''
-'''import heatmap
+import heatmap
 import random
 
 def main():
     testHeatmap1 = heatmap.Heatmap()
-    for i in range(0, 100):
-        testHeatmap1.inputHeatmapData(random.randint(0, 9), random.randint(0, 9))
+    testHeatmap1.inputHeatmapData("B10", "Test Log")
     testHeatmap1.saveHeatmapData()
     testHeatmap1.constructHeatmap()
 
@@ -23,15 +22,17 @@ def main():
     print(testHeatmap2.getHeatmapData())
     testHeatmap2.constructHeatmap()
 
+    testHeatmap3 = heatmap.Heatmap(isGuide=True)
+
 
 if __name__ == '__main__':
-    main()'''
+    main()
 
-from heatmap_app import HeatmapApp
+'''from heatmap_app import HeatmapApp
 
 def main():
     app = HeatmapApp()
     app.mainloop()
 
 if __name__ == '__main__':
-    main()
+    main()'''
