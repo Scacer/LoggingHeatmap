@@ -72,7 +72,7 @@ class Heatmap:
 
     # This method constructs and outputs the heatmap based on the data stored within self.heatMapData
     def constructHeatmap(self, isGuide=False):
-            figName = "heatmap.jpg"
+            figName = "generatedHeatmap.jpg"
 
             # Create a new figure
             fig, ax = plt.subplots()
@@ -110,7 +110,9 @@ class Heatmap:
             if isGuide:
                 # This block only executes if we are generating a guide grid
                 
-                figName = "guideGrid.jpg"
+                # The figure's name is changed to alter the filename it is saved to
+                figName = "guide.jpg"
+
                 # Minor ticks are generated between the values
                 xminorticks = []
                 yminorticks = []
@@ -124,7 +126,7 @@ class Heatmap:
                 ax.set_yticks(yminorticks, minor=True)  
 
                 # The axes are then given gridlines on the minor ticks and the plot is saved as an image
-                ax.grid(which="minor")
+                ax.grid(color="black", which="minor")
             
             # Save the figure
             fig.savefig(figName)
