@@ -6,6 +6,7 @@ class Heatmap:
 import matplotlib.image as image
 import matplotlib.pyplot as plt
 import numpy as np
+import re
 
 class Heatmap:
     # Attributes
@@ -24,8 +25,12 @@ class Heatmap:
         return self.heatmapData
 
 # Service Methods
-    def inputHeatmapData(self, x, y, sightings=1):
+    def inputHeatmapData(self, x, y, sightings=1): #replace x, y with gridCoordinate
         self.heatmapData[y][x] += sightings
+        #if re.fullmatch("[A-Z]{1}[0-9]+", gridCoordinate):
+        #    print(True)
+        #else:
+        #    print("Grid Co-ordinates should follow the format \"[A-Z]{1}[0-9]+\" e.g. B6, H10 !")
 
     def saveHeatmapData(self):
         heatmapData = self.heatmapData
@@ -89,4 +94,3 @@ class Heatmap:
             # Show the plot
             plt.show()
 
-# Support Methods
