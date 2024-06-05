@@ -8,18 +8,20 @@
                     as an indication of where illegal logging is happening the most.
 '''
 import heatmap
+import string
 import random
 
 def main():
     testHeatmap1 = heatmap.Heatmap()
-    testHeatmap1.inputHeatmapData("B10", "Test Log")
+    for i in range(0, 100):
+        testString = random.choice(string.ascii_letters[0:10]) + str(random.randint(1, 10))
+        testHeatmap1.inputHeatmapData(testString, "test")
+    testHeatmap1.inputHeatmapData("J2", "")
     testHeatmap1.saveHeatmapData()
     testHeatmap1.constructHeatmap()
 
     
     testHeatmap2 = heatmap.Heatmap(filePath="./data.txt")
-    print(testHeatmap1.getHeatmapData())
-    print(testHeatmap2.getHeatmapData())
     testHeatmap2.constructHeatmap()
 
     testHeatmap3 = heatmap.Heatmap(isGuide=True)

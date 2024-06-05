@@ -31,8 +31,16 @@ class Heatmap:
 # Service Methods
     def inputHeatmapData(self, gridCoordinate, description, sightings=1): #replace x, y with gridCoordinate
         self.__logIncident__(gridCoordinate, description)
-        if re.fullmatch("[A-Z]{1}[0-9]+", gridCoordinate):
-            print(True)
+        if re.fullmatch("[a-zA-Z]{1}[0-9]+", gridCoordinate):
+            alpha = gridCoordinate[0]
+            numeric = gridCoordinate[1:]
+            
+            x, y = self.__manageInput__(alpha, numeric)
+
+            try:
+                self.heatmapData[y][x] += sightings
+            except:
+                print("Grid co-ordinate was not in acceptable range!")
         else:
             print("Grid Co-ordinates should follow the format \"[A-Z]{1}[0-9]+\" e.g. B6, H10 !")
 
@@ -125,4 +133,11 @@ class Heatmap:
     def __logIncident__(self, gridCoordinate, description):
         with open("log.txt", 'a') as file:
             file.write(gridCoordinate + ", " + str(date.today()) + ", " + description + "\n")
+
+    def __manageInput__(self, alpha, numeric):
+        x = ord(alpha.lower()) - 97
+        y = 10 - int(numeric)
+        if x == self.heatmapSize:
+            print(alpha)
+        return x, y
 
