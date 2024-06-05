@@ -8,14 +8,13 @@ class HeatmapApp(tk.Tk):
         super().__init__()
 
         self.title("Cambodia Map to Sustainability")
-        self.configure(bg="#FAF0E6")  # Set creamy background color
+        self.configure(bg="#FAF0E6")
 
         self.heatmap = heatmap.Heatmap()
 
-        # Configure button colors
-        button_bg = "#8B4513"  # Darker brown color
+        button_bg = "#8B4513" 
         button_fg = "white"
-        button_hover_bg = "#A0522D"  # Lighter brown color for hover effect
+        button_hover_bg = "#A0522D"
 
         # Create style for ttk widgets
         style = ttk.Style()
@@ -35,7 +34,7 @@ class HeatmapApp(tk.Tk):
         self.selection = tk.StringVar()
         self.combobox = ttk.Combobox(self.button_frame, textvariable=self.selection, values=["Deforestation", "Floods"], state="readonly", style="TCombobox")
         self.combobox.set("Select")
-        self.combobox.pack(side="left", padx=5, pady=10, ipady=8, ipadx=8)  # Adjust ipady and ipadx values
+        self.combobox.pack(side="left", padx=5, pady=10, ipady=8, ipadx=8) 
 
         self.load_button = tk.Button(self.button_frame, text="Load Data", command=self.load_data, bg=button_bg, fg=button_fg, activebackground=button_hover_bg, relief=tk.FLAT, height=2, width=15)
         self.load_button.pack(side="left", padx=5, pady=10)
@@ -72,7 +71,7 @@ class HeatmapApp(tk.Tk):
         separator.pack(fill='x', pady=10)
 
         # Set the initial size of the GUI window
-        self.geometry("800x500")  # Width x Height
+        self.geometry("800x500") 
 
     def load_data(self):
         file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
@@ -89,14 +88,13 @@ class HeatmapApp(tk.Tk):
         self.heatmap.constructHeatmap()
 
     def save_data(self):
-        # Placeholder function for saving data
         print("Save Data button clicked")
 
     def on_enter(self, event):
-        event.widget.config(bg="#A0522D")  # Lighter brown color on hover
+        event.widget.config(bg="#A0522D")
 
     def on_leave(self, event):
-        event.widget.config(bg="#8B4513")  # Restore brown color
+        event.widget.config(bg="#8B4513")
 
 def main():
     app = HeatmapApp()
