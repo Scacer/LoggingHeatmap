@@ -7,7 +7,7 @@
                     data to represent locations around the village and utilises this data to generate a heatmap which can serve
                     as an indication of where illegal logging is happening the most.
 '''
-import heatmap
+'''import heatmap
 import string
 import random
 
@@ -28,13 +28,13 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main()'''
 
-'''from heatmap_app import HeatmapApp
+from heatmap_app import HeatmapApp
 
 def main():
     app = HeatmapApp()
     app.mainloop()
 
 if __name__ == '__main__':
-    main()'''
+    main()

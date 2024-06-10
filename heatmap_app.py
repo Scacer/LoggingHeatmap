@@ -1,111 +1,144 @@
 import tkinter as tk
 from tkinter import ttk, filedialog
-from PIL import Image, Imagetk
+from PIL import Image, ImageTk
 import heatmap
+import os
 
 class HeatmapApp(tk.Tk):
+
+    localHeatmap = heatmap.Heatmap()
+
     def __init__(self):
         super().__init__()
 
         self.title("Cambodia Map to Sustainability")
-        self.configure(bg="#FAF0E6")
+        self.configure(bg="#F0F6FC") 
 
-        self.heatmap = heatmap.Heatmap()
+        self.localHeatmap = heatmap.Heatmap()
 
-        button_bg = "#8B4513" 
+        button_bg = "#2196F3"
         button_fg = "white"
-        button_hover_bg = "#A0522D"
+        button_hover_bg = "#64B5F6"
 
-        # Create style for ttk widgets
         style = ttk.Style()
         style.theme_use('clam')
         style.configure('TCombobox', fieldbackground=button_bg, background=button_bg, foreground=button_fg, arrowcolor=button_fg)
         style.map('TCombobox', fieldbackground=[('readonly', button_bg)], background=[('readonly', button_bg)], foreground=[('readonly', button_fg)], arrowcolor=[('readonly', button_fg)])
 
-        # Title label
-        title_label = tk.Label(self, text="Cambodia Map to Sustainability", bg="#FAF0E6", fg="#333", font=('Helvetica', 24, 'bold', 'underline'))
-        title_label.pack(side="top", pady=20)
+        title_label = tk.Label(self, text="Cambodia Map to Sustainability", bg="#F0F6FC", fg="#333", font=('Helvetica', 24, 'bold', 'underline'))
+        title_label.grid(row=0, column=0, columnspan=5, pady=20, sticky="ew")
 
-        # Frame to hold buttons
-        self.button_frame = tk.Frame(self, bg="#FAF0E6")
-        self.button_frame.pack(side="top", fill="x")
+        self.button_frame = tk.Frame(self, bg="#F0F6FC")
+        self.button_frame.grid(row=1, column=0, columnspan=5, pady=(0, 10), sticky="ew")
 
-        # Combobox for selecting between deforestation and floods
-        self.selection = tk.StringVar()
-        self.combobox = ttk.Combobox(self.button_frame, textvariable=self.selection, values=["Deforestation", "Floods"], state="readonly", style="TCombobox")
-        self.combobox.set("Select")
-        self.combobox.pack(side="left", padx=5, pady=10, ipady=8, ipadx=8) 
-
+        # Create buttons for loading data, visualizing heatmap, saving data, and quitting
         self.load_button = tk.Button(self.button_frame, text="Load Data", command=self.load_data, bg=button_bg, fg=button_fg, activebackground=button_hover_bg, relief=tk.FLAT, height=2, width=15)
-        self.load_button.pack(side="left", padx=5, pady=10)
+        self.load_button.grid(row=0, column=0, padx=5, pady=10, sticky="ew")
 
         self.visualize_button = tk.Button(self.button_frame, text="Visualize Heatmap", command=self.visualize_heatmap, bg=button_bg, fg=button_fg, activebackground=button_hover_bg, relief=tk.FLAT, height=2, width=15)
-        self.visualize_button.pack(side="left", padx=5, pady=5)
+        self.visualize_button.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
 
         self.save_button = tk.Button(self.button_frame, text="Save Data", command=self.save_data, bg=button_bg, fg=button_fg, activebackground=button_hover_bg, relief=tk.FLAT, height=2, width=15)
-        self.save_button.pack(side="left", padx=5, pady=5)
+        self.save_button.grid(row=0, column=2, padx=5, pady=5, sticky="ew")
 
         self.quit_button = tk.Button(self.button_frame, text="Quit", command=self.quit, bg=button_bg, fg=button_fg, activebackground=button_hover_bg, relief=tk.FLAT, height=2, width=15)
-        self.quit_button.pack(side="left", padx=5, pady=5)
+        self.quit_button.grid(row=0, column=4, padx=5, pady=5, sticky="ew")
 
-        # Set button fonts
         button_font = ('Arial', 12, 'bold')
-        self.combobox.config(font=button_font)
+
         self.load_button.config(font=button_font)
         self.visualize_button.config(font=button_font)
         self.save_button.config(font=button_font)
         self.quit_button.config(font=button_font)
 
-        # Set button bindings for hover effect
-        self.load_button.bind("<Enter>", self.on_enter)
-        self.load_button.bind("<Leave>", self.on_leave)
-        self.visualize_button.bind("<Enter>", self.on_enter)
-        self.visualize_button.bind("<Leave>", self.on_leave)
-        self.save_button.bind("<Enter>", self.on_enter)
-        self.save_button.bind("<Leave>", self.on_leave)
-        self.quit_button.bind("<Enter>", self.on_enter)
-        self.quit_button.bind("<Leave>", self.on_leave)
+        separator = tk.Frame(self, height=2, bg="#1976D2", bd=0, relief=tk.SUNKEN)  
+        separator.grid(row=2, column=0, columnspan=5, sticky="ew", pady=(0, 10))
 
-        # Custom separator
-        separator = tk.Frame(self, height=2, bg="#8B4513", bd=0, relief=tk.SUNKEN)
-        separator.pack(fill='x', pady=10)
+        # Load the guide image
+        guideMap = heatmap.Heatmap(isGuide=True)
+        self.guide_image = Image.open("guide.jpg")
+        self.guide_photo = ImageTk.PhotoImage(self.guide_image)
 
-        # Set the initial size of the GUI window
-        self.geometry("800x500") 
+        # Create a label to display the guide image
+        self.guide_label = tk.Label(self, image=self.guide_photo, bg="#F0F6FC")
+        self.guide_label.grid(row=3, column=0, padx=20, pady=20, rowspan=3, sticky="nsew")
+
+        # Create a frame for the input widgets and the submit button
+        input_frame = tk.Frame(self, bg="#F0F6FC")
+        input_frame.grid(row=3, column=1, columnspan=4, padx=20, pady=20, sticky="nsew")
+
+        # Create labels for inputs
+        coordinate_label = tk.Label(input_frame, text="Coordinate:", bg="#F0F6FC", fg="#333", font=('Arial', 12, 'bold'))
+        coordinate_label.grid(row=0, column=0, padx=(0, 5), pady=10, sticky="e")
+
+        # Create entry widgets for coordinates and description
+        self.coordinate_entry = tk.Entry(input_frame, bg="white", fg="black", relief=tk.FLAT, width=10)
+        self.coordinate_entry.grid(row=0, column=1, padx=(0, 5), pady=10, sticky="ew")
+
+        description_label = tk.Label(input_frame, text="Description:", bg="#F0F6FC", fg="#333", font=('Arial', 12, 'bold'))
+        description_label.grid(row=1, column=0, padx=(0, 5), pady=10, sticky="e")
+
+        self.description_entry = tk.Entry(input_frame, bg="white", fg="black", relief=tk.FLAT, width=20)
+        self.description_entry.grid(row=1, column=1, padx=(0, 5), pady=10, sticky="ew")
+
+        # Create submit button
+        self.submit_button = tk.Button(input_frame, text="Submit", command=self.log_incident, bg=button_bg, fg=button_fg, activebackground=button_hover_bg, relief=tk.FLAT, height=2, width=15)
+        self.submit_button.grid(row=0, column=2, rowspan=2, padx=5, pady=10, sticky="ns")
+        self.submit_button.config(font=button_font)
+
+        # Configure row and column weights to make the content resize with the window
+        for i in range(4):
+            self.grid_rowconfigure(i, weight=1)
+            self.grid_columnconfigure(i, weight=1)
+
+        print("GUI initialized successfully.")
 
     def load_data(self):
         file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
         if file_path:
-            self.heatmap = heatmap.Heatmap(filePath=file_path)
+            self.localHeatmap = heatmap.Heatmap(filePath=file_path)
             print("Data loaded successfully from:", file_path)
 
     def visualize_heatmap(self):
-        selection = self.selection.get()
-        if selection == "Deforestation":
-            print("Visualizing deforestation heatmap")
-        elif selection == "Floods":
-            print("Visualizing floods heatmap")
-        self.heatmap.constructHeatmap()
+        self.localHeatmap.constructHeatmap()
+        print("Heatmap visualized.")
+        # Show the generated heatmap image
+        heatmap_image = Image.open("generatedHeatmap.jpg")
+        heatmap_photo = ImageTk.PhotoImage(heatmap_image)
+        
+        # Create a label to display the generated heatmap image
+        if hasattr(self, "heatmap_label"):
+            self.heatmap_label.destroy()
+        
+        self.heatmap_label = tk.Label(self, image=heatmap_photo, bg="#F0F6FC")
+        self.heatmap_label.image = heatmap_photo
+        self.heatmap_label.grid(row=3, column=0, padx=20, pady=20, rowspan=3, sticky="nsew")
+
+    def visualize_all_heatmaps(self):
+        data_folder = "./"  # Assuming data.txt files are in the same directory
+        for file_name in os.listdir(data_folder):
+            if file_name.endswith(".txt"):
+                file_path = os.path.join(data_folder, file_name)
+                self.localHeatmap.constructHeatmap()
+                print("Heatmap visualized from:", file_path)
 
     def save_data(self):
-        print("Save Data button clicked")
+        self.localHeatmap.saveHeatmapData()
+        # Save data logic goes here
 
-    def on_enter(self, event):
-        event.widget.config(bg="#A0522D")
+    def quit(self):
+        self.destroy()
 
-    def on_leave(self, event):
-        event.widget.config(bg="#8B4513")
-    
-    def placeGuide(self): 
-        # Generates the guide image
-        guideMap = heatmap.Heatmap(isGuide=True)
-
-        # The guide image then needs to be placed in the window :)
-        # The image is saved as guideGrid
+    def log_incident(self):
+        coordinates = self.coordinate_entry.get()
+        description = self.description_entry.get()
+        self.localHeatmap.inputHeatmapData(coordinates, description)
+        print("Incident logged:", coordinates, description)
 
 def main():
     app = HeatmapApp()
     app.mainloop()
+    print("HeatmapApp main loop started.")
 
 if __name__ == '__main__':
     main()
