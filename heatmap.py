@@ -16,6 +16,9 @@ class Heatmap:
     columnsLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
     
 # Constructor
+    # The constructor takes arguments for filePath, heatmapSize, imgPath, and isGuide. The constructor will by default create an empty heatmap with grid size 10*10
+    # taking the map from a local file called map.png.
+    # If isGuide is flagged as true, the constructor creates a "template" heatmap which shows gridlines as a visual aide for data input.
     def __init__(self, filePath=None, heatmapSize=10, imgPath="./map.png", isGuide=False):
         self.heatmapSize = heatmapSize
         self.imgPath = imgPath
@@ -29,7 +32,8 @@ class Heatmap:
         return self.heatmapData
 
 # Service Methods
-    def inputHeatmapData(self, gridCoordinate, description, sightings=1): #replace x, y with gridCoordinate
+    # inputHeatmapData takes arguments for an alphanumeric gridCoordinate, a description, and an optional argument for number of sightings which defaults to 1.
+    def inputHeatmapData(self, gridCoordinate, description, sightings=1):
         self.__logIncident__(gridCoordinate, description)
         if re.fullmatch("[a-zA-Z]{1}[0-9]+", gridCoordinate):
             alpha = gridCoordinate[0]
@@ -44,6 +48,7 @@ class Heatmap:
         else:
             print("Grid Co-ordinates should follow the format \"[A-Z]{1}[0-9]+\" e.g. B6, H10 !")
 
+    # saveHeatmapData simply writes the contents of the heatmapData attribute to a local file for storage.
     def saveHeatmapData(self):
         heatmapData = self.heatmapData
         with open('data.txt', 'w') as file:
@@ -53,7 +58,9 @@ class Heatmap:
                 if i != len(heatmapData)-1:
                     file.write("\n") 
 
-    def loadHeatMapData(self, path):
+    # loadHeatmap takes an argument "path" which is used as the file path. If no filepath is provided an empty array is constructed, if a filepath is provided
+    # the method will load the data in the stored file into the heatmapData attribute.
+    def loadHeatMapData(self, path=None):
         if path == None:
             return [[0 for i in range(10)] for i in range(10)]
         else:
@@ -132,10 +139,12 @@ class Heatmap:
             fig.savefig(figName)
 
 # Support Methods
+    # The __logIncident__ method is a private method which is utilised during the inputHeatmapData method to store a log of data input.
     def __logIncident__(self, gridCoordinate, description):
         with open("log.txt", 'a') as file:
             file.write(gridCoordinate + ", " + str(date.today()) + ", " + description + "\n")
 
+    # The __manageInput__ method is a private method which is utilised during the inputHeatmapData method to parse the alphanumeric gridCoordinate.
     def __manageInput__(self, alpha, numeric):
         x = ord(alpha.lower()) - 97
         y = 10 - int(numeric)

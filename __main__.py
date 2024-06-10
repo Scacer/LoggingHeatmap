@@ -12,7 +12,7 @@ import string
 import random
 
 def main():
-    testHeatmap1 = heatmap.Heatmap()
+    testHeatmap1 = heatmap.Heatmap(imgPath="./map.JPG")
     for i in range(0, 100):
         testString = random.choice(string.ascii_letters[0:10]) + str(random.randint(1, 10))
         testHeatmap1.inputHeatmapData(testString, "test")
