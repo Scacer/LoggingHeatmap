@@ -14,6 +14,7 @@ class Heatmap:
     # Attributes
     rowsLabels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
     columnsLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']
+    logs = []
     
 # Constructor
     # The constructor takes arguments for filePath, heatmapSize, imgPath, and isGuide. The constructor will by default create an empty heatmap with grid size 10*10
@@ -50,6 +51,7 @@ class Heatmap:
 
     # saveHeatmapData simply writes the contents of the heatmapData attribute to a local file for storage.
     def saveHeatmapData(self):
+        self.__saveIncidents__()
         heatmapData = self.heatmapData
         with open('data.txt', 'w') as file:
             for i in range(0, len(heatmapData)):
@@ -139,10 +141,17 @@ class Heatmap:
             fig.savefig(figName)
 
 # Support Methods
-    # The __logIncident__ method is a private method which is utilised during the inputHeatmapData method to store a log of data input.
+    # The __logIncident__ method is a private method which is utilised during the inputHeatmapData method to store a log of data input in program memory.
     def __logIncident__(self, gridCoordinate, description):
+        self.logs.append([gridCoordinate, str(date.today()), description])
+    
+    # The __saveIncidents__ method is a private method called during the saveHeatmapData method which saves all logs stored in program memory and subsequently clears them.
+    def __saveIncidents__(self):
+        currentLogs = self.logs
         with open("log.txt", 'a') as file:
-            file.write(gridCoordinate + ", " + str(date.today()) + ", " + description + "\n")
+            for i in range(0, len(currentLogs)):
+                file.write(currentLogs[i][0] + ", " + currentLogs[i][1] + ", " + currentLogs[i][2] + "\n")
+        self.logs.clear()
 
     # The __manageInput__ method is a private method which is utilised during the inputHeatmapData method to parse the alphanumeric gridCoordinate.
     def __manageInput__(self, alpha, numeric):
