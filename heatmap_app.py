@@ -1,8 +1,11 @@
+'''
+class HeatmapApp(tk.Tk):
+    The HeatmapApp class inherits from the tk.Tk class and GUI functionality for interacting with and displaying Heatmap objects.
+'''
 import tkinter as tk
 from tkinter import ttk, filedialog
 from PIL import Image, ImageTk
 import heatmap
-import os
 
 class HeatmapApp(tk.Tk):
 
