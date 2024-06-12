@@ -119,13 +119,11 @@ class HeatmapApp(tk.Tk):
 
     def load_data(self):
         file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
-        if file_path:
-            self.localHeatmap = heatmap.Heatmap(filePath=file_path)
-            print("Data loaded successfully from:", file_path)
+        self.localHeatmap = heatmap.Heatmap(filePath=file_path)
+        self.__createMessage__("Data Successfully Loaded!", ("Data successfully loaded from {0}.".format(file_path)))
 
     def visualize_heatmap(self):
         self.localHeatmap.constructHeatmap()
-        print("Heatmap visualized.")
         # Show the generated heatmap image
         heatmap_image = Image.open("generatedHeatmap.jpg")
         heatmap_photo = ImageTk.PhotoImage(heatmap_image)
@@ -139,8 +137,12 @@ class HeatmapApp(tk.Tk):
         self.heatmap_label.grid(row=3, column=0, padx=20, pady=20, rowspan=3, sticky="nsew")
 
     def save_data(self):
-        self.localHeatmap.saveHeatmapData()
-        # Save data logic goes here
+        result = tk.messagebox.askquestion("Save?", "Are you sure you want to save this heatmap? Previous data will be overwritten!", icon='warning')
+        if result == 'yes':
+            self.localHeatmap.saveHeatmapData()
+            self.__createMessage__("Data Saved!", "The data was saved to filepath \"data.txt\"")
+        if result == 'no':
+            return
 
     def quit(self):
         self.destroy()
@@ -148,14 +150,24 @@ class HeatmapApp(tk.Tk):
 
     def log_incident(self):
         coordinates = self.coordinate_entry.get()
+        self.coordinate_entry.delete(0, 'end')
         description = self.description_entry.get()
-        self.localHeatmap.inputHeatmapData(coordinates, description)
-        print("Incident logged:", coordinates, description)
+        self.description_entry.delete(0, 'end')
+        message = self.localHeatmap.inputHeatmapData(coordinates, description)
+        if message != None:
+            self.__createError__("Input Error!", message)
+            return
+        self.visualize_heatmap()
+
+    def __createMessage__(self, title=None, message=None):
+        tk.messagebox.showinfo(title, message)
+
+    def __createError__(self, title=None, message=None):
+        tk.messagebox.showerror(title, message)
 
 def main():
     app = HeatmapApp()
     app.mainloop()
-    print("HeatmapApp main loop started.")
 
 if __name__ == '__main__':
     main()

@@ -44,10 +44,13 @@ class Heatmap:
 
             try:
                 self.heatmapData[y][x] += sightings
+                return None
             except:
-                print("Grid co-ordinate was not in acceptable range!")
+                return "Grid co-ordinate was not in acceptable range!"
         else:
-            print("Grid Co-ordinates should follow the format \"[A-Z]{1}[0-9]+\" e.g. B6, H10 !")
+            return "Grid Co-ordinates should follow the format: \n \"[A-Z]{1}[0-9]+\" e.g. B6, H10 !"
+        
+
 
     # saveHeatmapData simply writes the contents of the heatmapData attribute to a local file for storage.
     def saveHeatmapData(self):
@@ -75,10 +78,10 @@ class Heatmap:
                             currentRow[i] = int(currentRow[i])  
                         tempArray.append(currentRow)
                 self.heatmapSize = len(tempArray)
+                self.logs.clear()
                 return tempArray
             except:
-                print("File does not exist or data is not formatted correctly!")
-            self.logs.clear()
+                return ("File does not exist or data is not formatted correctly!")
 
     # This method constructs and outputs the heatmap based on the data stored within self.heatMapData
     def constructHeatmap(self, isGuide=False):
@@ -158,7 +161,7 @@ class Heatmap:
     def __manageInput__(self, alpha, numeric):
         x = ord(alpha.lower()) - 97
         y = 10 - int(numeric)
-        if x == self.heatmapSize:
-            print(alpha)
+        if y < 0:
+            y = self.heatmapSize + 2
         return x, y
 

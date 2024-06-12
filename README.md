@@ -1,9 +1,9 @@
 # Logging Heatmap
 
 ## Table of Contents
-[Project Description](#project-description)
-[How to Install and Run The Project](#how-to-install-and-run-the-project)
-[Credits](#credits)
+- [Project Description](#project-description)
+- [How to Install and Run The Project](#how-to-install-and-run-the-project)
+- [Credits](#credits)
 
 ## Project Description
 ### What does it do?
@@ -67,20 +67,4 @@ After installing dependencies, run the __main__.py file. Afterwards the step-by-
 - Contributed the backend code including all funcitonality within the Heatmap class
 - Prototype Documentation and Presentation
 - Lead finisher
-
-Guide on how to use the program
-
-FOR DEVELOPERS these are this is the libraries you need to install along with the commands:
-
-pip install heatmapz seaborn pillow matplotlib numpy
-sudo apt-get install python3-tk
-
-import sys as well
-
--seaborn (for heatmaps)
--pillow (for image handling)
--matplotlib (for plotting and image handling)
--numpy (for numerical operations)
--tkinter (for the GUI)
--import sys as well
 
