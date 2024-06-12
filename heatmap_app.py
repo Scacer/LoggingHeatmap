@@ -90,7 +90,7 @@ class HeatmapApp(tk.Tk):
         #guide text below the submit button and input fields
         guide_text = ("HOW TO USE:\n"
                       "1. Press load data\n"
-                      "2. Choose data.txt\n"
+                      "2. Press data.txt\n"
                       "3. Press visualize\n"
                       "4. Plot the coordinate (e.g. A1) using the guide and write any description\n"
                       "5. Press submit\n"
