@@ -78,6 +78,7 @@ class Heatmap:
                 return tempArray
             except:
                 print("File does not exist or data is not formatted correctly!")
+            self.logs.clear()
 
     # This method constructs and outputs the heatmap based on the data stored within self.heatMapData
     def constructHeatmap(self, isGuide=False):

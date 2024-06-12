@@ -2,6 +2,7 @@
 class HeatmapApp(tk.Tk):
     The HeatmapApp class inherits from the tk.Tk class and GUI functionality for interacting with and displaying Heatmap objects.
 '''
+import sys
 import tkinter as tk
 from tkinter import ttk, filedialog
 from PIL import Image, ImageTk
@@ -98,6 +99,22 @@ class HeatmapApp(tk.Tk):
             self.grid_rowconfigure(i, weight=1)
             self.grid_columnconfigure(i, weight=1)
 
+        #guide text below the submit button and input fields
+        guide_text = ("HOW TO USE:\n"
+                      "1. Press load data\n"
+                      "2. Choose data.txt\n"
+                      "3. Press visualize\n"
+                      "4. Plot the coordinate (e.g. A1) using the guide and write any description\n"
+                      "5. Press submit\n"
+                      "6. Press visualize to see how it is updated\n"
+                      "7. Press save if you are happy with it")
+
+        guide_frame = tk.Frame(input_frame, bg="#2196F3", bd=2, relief=tk.SOLID)
+        guide_frame.grid(row=2, column=0, columnspan=3, pady=20, sticky="ew")
+
+        guide_label = tk.Label(guide_frame, text=guide_text, bg="#2196F3", fg="black", font=('Arial', 10), anchor="w", justify="left")
+        guide_label.pack(padx=10, pady=10, fill="both", expand=True)
+
         print("GUI initialized successfully.")
 
     def load_data(self):
@@ -127,6 +144,7 @@ class HeatmapApp(tk.Tk):
 
     def quit(self):
         self.destroy()
+        sys.exit()
 
     def log_incident(self):
         coordinates = self.coordinate_entry.get()
