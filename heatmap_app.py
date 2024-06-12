@@ -29,7 +29,7 @@ class HeatmapApp(tk.Tk):
         style.configure('TCombobox', fieldbackground=button_bg, background=button_bg, foreground=button_fg, arrowcolor=button_fg)
         style.map('TCombobox', fieldbackground=[('readonly', button_bg)], background=[('readonly', button_bg)], foreground=[('readonly', button_fg)], arrowcolor=[('readonly', button_fg)])
 
-        title_label = tk.Label(self, text="Cambodia Map to Sustainability", bg="#F0F6FC", fg="#333", font=('Helvetica', 24, 'bold', 'underline'))
+        title_label = tk.Label(self, text="Pu Ngaol Illegal Logging Activity", bg="#F0F6FC", fg="#333", font=('Helvetica', 24, 'bold', 'underline'))
         title_label.grid(row=0, column=0, columnspan=5, pady=20, sticky="ew")
 
         self.button_frame = tk.Frame(self, bg="#F0F6FC")
@@ -101,18 +101,18 @@ class HeatmapApp(tk.Tk):
 
         #guide text below the submit button and input fields
         guide_text = ("HOW TO USE:\n"
-                      "1. Press load data\n"
+                      "1. Press \"Load Data\"\n"
                       "2. Choose data.txt\n"
-                      "3. Press visualize\n"
-                      "4. Plot the coordinate (e.g. A1) using the guide and write any description\n"
-                      "5. Press submit\n"
-                      "6. Press visualize to see how it is updated\n"
-                      "7. Press save if you are happy with it")
+                      "3. Press \"Visualize Heatmap\" \n"
+                      "4. Plot desired Co-ordinate (e.g. A1) and incident description using the entry boxes\n"
+                      "5. Press \"Submit\" \n"
+                      "6. Repeat steps 4 and 5 for all datapoints\n"
+                      "7. Press \"Save Data\" to commit changes to data.txt")
 
         guide_frame = tk.Frame(input_frame, bg="#2196F3", bd=2, relief=tk.SOLID)
         guide_frame.grid(row=2, column=0, columnspan=3, pady=20, sticky="ew")
 
-        guide_label = tk.Label(guide_frame, text=guide_text, bg="#2196F3", fg="black", font=('Arial', 10), anchor="w", justify="left")
+        guide_label = tk.Label(guide_frame, text=guide_text, bg="#2196F3", fg="white", font=('Arial', 12, 'bold'), anchor="w", justify="left")
         guide_label.pack(padx=10, pady=10, fill="both", expand=True)
 
         print("GUI initialized successfully.")
