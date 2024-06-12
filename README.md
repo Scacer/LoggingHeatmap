@@ -30,12 +30,13 @@ The only true dependency for this project, that being libraries that do not come
 
 ### User Guide
 After installing dependencies, run the __main__.py file. Afterwards the step-by-step guide is as follows:
-1. Press Load Data
+1. Press "Load Data"
 2. Choose data.txt
-3. Press Visualize
-4. Plot the Co-ordinate (e.g. A1) using the guide and write any description
+3. Press "Visualize Heatmap"
+4. Plot desired Co-ordinate (e.g. A1) and incident description using the entry boxes
 5. Press Submit
-7. Press Save to save the heatmap data to local storage.
+6. Repeat steps 4 and 5 for all datapoints
+7. Press "Save Data" to commit changes to data.txt
 
 ## Credits
 ### Denis Komarovs
