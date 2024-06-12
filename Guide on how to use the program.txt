@@ -1,0 +1,24 @@
+Guide on how to use the program
+
+FOR DEVELOPERS these are this is the libraries you need to install along with the commands:
+
+pip install heatmapz seaborn pillow matplotlib numpy
+sudo apt-get install python3-tk
+
+import sys as well
+
+-seaborn (for heatmaps)
+-pillow (for image handling)
+-matplotlib (for plotting and image handling)
+-numpy (for numerical operations)
+-tkinter (for the GUI)
+-import sys as well
+
+FOR USERS THIS IS THE GUIDE:
+1. press load data
+2.choose data.txt
+3.press visualise
+4.plot the cordinate (e.g.A1) using the guide and write any description
+5.press submit
+6.press visualise to see how it is updated 
+7.Press save if you are happy with it
