@@ -1,4 +1,3 @@
-
 import sys
 import tkinter as tk
 from tkinter import ttk, filedialog
@@ -35,6 +34,10 @@ class HeatmapApp(tk.Tk):
         #button frame
         self.button_frame = tk.Frame(self, bg="#F0F6FC")
         self.button_frame.grid(row=1, column=0, columnspan=5, pady=(0, 10), sticky="ew")
+        self.button_frame.grid_columnconfigure(0, weight=1)
+        self.button_frame.grid_columnconfigure(1, weight=1)
+        self.button_frame.grid_columnconfigure(2, weight=1)
+        self.button_frame.grid_columnconfigure(3, weight=1)
 
         # Create buttons for loading data, visualizing heatmap, saving data, and quitting
         self.load_button = tk.Button(self.button_frame, text="Load Data", command=self.load_data, bg=button_bg, fg=button_fg, activebackground=button_hover_bg, relief=tk.FLAT, height=2, width=15)
@@ -44,7 +47,7 @@ class HeatmapApp(tk.Tk):
         self.save_button = tk.Button(self.button_frame, text="Save Data", command=self.save_data, bg=button_bg, fg=button_fg, activebackground=button_hover_bg, relief=tk.FLAT, height=2, width=15)
         self.save_button.grid(row=0, column=2, padx=5, pady=5, sticky="ew")
         self.quit_button = tk.Button(self.button_frame, text="Quit", command=self.quit, bg=button_bg, fg=button_fg, activebackground=button_hover_bg, relief=tk.FLAT, height=2, width=15)
-        self.quit_button.grid(row=0, column=4, padx=5, pady=5, sticky="ew")
+        self.quit_button.grid(row=0, column=3, padx=5, pady=5, sticky="ew")
         button_font = ('Arial', 12, 'bold')
         self.load_button.config(font=button_font)
         self.visualize_button.config(font=button_font)
